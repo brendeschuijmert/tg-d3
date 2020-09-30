@@ -1,0 +1,777 @@
+@t1:white;
+@t2:grey;
+
+/* sub-titles, descriptive text, grey */
+@t3:#000;
+
+/* titles */
+@tFigure: rgb(164, 169, 172);
+@axisLabels: grey;
+@divRadius: 21px;
+@divColor: rgba(0, 0, 0, 0.236);
+
+#container { padding: 0px 20px;}
+
+body {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+                                  cursor: default;
+}
+
+h4 { 
+  margin: 0px !important;
+  display: inline;
+  padding-right: 5px !important;
+}
+
+#mobilemessage {
+  display: none;
+  padding: 9px;
+  font-size: 12px;
+}
+
+#country_name_popup {
+  color: black;
+  border-radius: 5px;
+  border: 1px solid #515151;
+  background: lightgray;
+  margin: 10px;
+  padding: 10px;
+  font-size: 1.2em;
+  position: fixed;
+  display: none;
+  z-index: 102;
+}
+
+#popup_country_name {
+  display: block;
+  font-size: 1.4em;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid black;
+  width: 250px;
+}
+
+#country_name_popup th {
+  text-align: right;
+}
+
+#country_name_popup th {
+  text-align: left;
+}
+
+/* top row container */
+#topRow {
+  text-align: right;
+  padding-bottom: 20px;
+  margin-top: 0px;
+}
+
+.yearSelected {
+  fill: red;
+}
+.yearUnselected {
+  fill: green;
+}
+.disclaimer1 {
+  display: inline;
+  color: @t2;
+  font-size: 9px;
+  font-weight: normal;
+}
+.disclaimer2 {
+  display: inline;
+  color: @t2;
+  font-size: 9px;
+  font-weight: normal;
+}
+.totalBars {
+  stroke: green;
+}
+
+/* middle row container */
+.middleRow {
+  width: 100%;
+  z-index: 999999;
+  margin-bottom: 15px;
+}
+
+.map_header {
+  padding-top: 12px;
+  padding-bottom: 5px;
+}
+
+/* country of origin/asylum toggle button */
+#switchContainer {
+  z-index: 99909;
+  display: inline-block;
+  padding-top: 4px;
+}
+
+.switchASY {
+  display: inline;
+  background: url(../img/switch.png);
+  background-position: 0px 0px;
+  width: 76px;
+  height: 56px;
+  padding: 5px;
+  cursor: pointer;
+}
+.switchORI {
+  display: inline;
+  background: url(../img/switch.png);
+  background-position: 0px 29px;
+  width: 76px;
+  height: 56px;
+  padding: 5px;
+  cursor: pointer;
+}
+.switchActive {
+  color: @t3;
+  font-weight: bold;/* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+}
+.switchInactive {
+  color: @t2;
+  font-weight: bold;/* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+}
+.active {
+  color: @t1;
+}
+
+.maplegend {
+  font-size: 9px; 
+  line-height: 1.3;
+  position: relative;
+  top: 10px;
+}
+
+  .maplegend table {
+    background-color: rgba(255,255,255,1);
+    padding: 8px;
+    left: 0px;
+  }
+
+
+.country {
+  fill: lightgrey;
+  stroke: black;
+  stroke-width: 0.2;
+}
+.country:hover {
+}
+
+#map {
+  position: relative;
+  height: auto;
+}
+
+.overlayBar,
+.country {
+  cursor: pointer;
+}
+
+#map_tooltip {
+  position: fixed;
+  display: none;
+  top: 0px;
+  height: 30px;
+  left: 0px;
+  background-color: #FFF;
+  opacity: 1;
+  color: #000;
+  font-size: 10px;
+  font-weight: bold;
+  padding-left: 7px;
+  padding-right: 7px;
+  z-index: 9999999;
+  padding-top: 5px;
+  padding-bottom: 6px;
+}
+
+.dc-tooltip {
+  background-color: #FFF;
+  border: 1px solid grey;
+  padding: 3px 7px;
+  font-size: 12px;
+  -webkit-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.16);
+  -moz-box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.16);
+  box-shadow: 1px 1px 2px 0px rgba(0,0,0,0.16);
+}
+
+.dc-tooltip-title {
+  font-weight: bold;
+  padding-right: 2px;
+}
+
+.dc-tooltip-value {
+  padding-left: 2px;
+}
+
+.dc-tooltip:after,
+.dc-tooltip:before {
+    content: '';
+    display: block;
+    margin-left: -5px;
+    // margin: auto;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: #ffffff transparent transparent transparent;
+}
+
+.dc-tooltip:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent #FFF transparent transparent;
+    top: 6px;
+    left: -9px;
+}
+
+.dc-tooltip:before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent #656565 transparent transparent;
+    top: 6px;
+    left: -10px;
+}
+
+#map_info {
+  color: #100303;
+  position: absolute;
+  height: 147px;
+  /* width: 230px; */
+  bottom: 5px;
+  left: 10px;
+  padding: 3px;
+  font-size: 9px;
+  padding-left: 7px;
+  background-color: #f6f6f6;
+}
+.ui-slider .ui-slider-handle {
+  width: 30px;
+  height: 30px;
+  background: url('../img/sliderhandle.png') no-repeat;
+  overflow: hidden;
+  position: absolute;
+  top: -10px;
+  border-style: none;
+}
+.axis path, .totalYAxis path, .totalChangeAxis path, .axis line, .totalYAxis line {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.3);
+  shape-rendering: crispEdges;
+}
+.axis text, .totalYAxis text, .totalChangeAxis text {
+  font-size: 10px;
+  fill: @axisLabels;
+}
+.axisLabel {
+  color: @axisLabels;
+  position: absolute; left: 12px; font-size: 9px; z-index: 9
+}
+
+.changeGraphDiv .axisLabel {
+  left: 3px;
+}
+
+.axisLabel.dec {
+ bottom: 37px;
+}
+
+.axisLabel.inc {
+  top: 22px;
+}
+
+.axisTitle {
+  color: @t3;
+}
+
+.mapInfoLabel {
+  color: @axisLabels;
+  font-size: 9px; 
+  z-index: 9;
+  padding-left: 4px;
+}
+
+.yTotalLabel {
+  font-size: 10px;
+  font-weight: normal;
+  fill: grey;
+}
+.totalLabel {
+  font-size: 10px;
+  font-weight: normal;
+  fill: grey;
+}
+.totalValue {
+  font-size: 17px;
+  font-weight: bold;
+  fill: white;
+}
+.changeLabel {
+  font-size: 10px;
+  font-weight: normal;
+  fill: grey;
+}
+.changeValue {
+  font-size: 14px;
+  font-weight: bold;
+  fill: white;
+}
+.changeUp {
+  position: relative;
+  top: -22px;
+  left: 442px;
+  z-index: 999999;
+  display: block;
+  width: 16px;
+  height: 18px;
+  background: url(../img/change_smaller_new.png) 0px -2px;
+  background-size: 20px 40px;
+
+}
+.changeDown {
+  position: relative;
+  top: -30px;
+  left: 442px;
+  z-index: 999999;
+  display: block;
+  width: 16px;
+  height: 18px;
+  background: url(../img/change_smaller_new.png) -1px 25px;
+  background-size: 20px 40px;
+}
+.changeNone {
+  position: relative;
+  top: -30px;
+  left: 442px;
+  z-index: 999999;
+  display: block;
+  width: 16px;
+  height: 18px;
+}
+.changeSmallUp {
+  display: inline-block;
+  background: url(../img/change_smaller_new.png);
+  background-position: 0px -2px;
+  background-size: 20px 40px;
+  width: 20px;
+  height: 9px;
+}
+.changeSmallDown {
+  display: inline-block;
+  background: url(../img/change_smaller_new.png);
+  background-position: 0px 17px;
+  width: 20px;
+  background-size: 20px 40px;
+  height: 9px;
+}
+.changeSmallNone {
+  display: none;
+  background: none;
+  width: 16px;
+  height: 16px;
+}
+.text {
+  display: inline;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0pt;
+  line-height: 190%;
+  color: @t2;/* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+}
+.figure_box {
+  background-color: #f2f2f2;
+  width: 140px;
+  height: 33px;
+  text-align: center;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;/* Firefox v3.5+ */
+  margin-left: 10px;
+  float: right;
+  display: inline-block;
+
+}
+.figure_text {
+  padding-top: 0px;
+  font-size: 18px;
+  color: @tFigure;
+}
+
+.figure_label {
+  text-align: right;
+  display: inline-block;
+}
+
+.label_main1 {
+  display: inline;
+  color: #000;
+  font-size: 12px;
+  font-weight: bold;  /* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+  padding-top: 5px;
+}
+.label_main2 {
+  display: inline;
+  color: @t3;
+  font-size: 11px;
+  line-height: 0.5;
+  display: block;
+  padding-top: 7px;
+  font-weight: bold;/* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+}
+
+.next {
+  background-color: green;
+  width: 10px;
+  display: inline;
+  background: url(../img/nextprev_new.png);
+  background-size: 20px 40px; 
+  background-position: 22px -21px;
+  cursor: pointer;
+}
+.prev {
+  background-color: green;
+  width: 10px;
+  display: inline;
+  background: url(../img/nextprev_new.png);
+  background-position: -4px -2px;
+    background-size: 20px 40px; 
+  cursor: pointer;
+}
+.nextCountry {
+  width: 10px;
+  display: inline;
+  background: url(../img/nextprev_new.png);
+  background-position: 11px -2px;
+  cursor: pointer;
+}
+.prevCountry {
+  width: 10px;
+  display: inline;
+  background: url(../img/nextprev_new.png);
+  background-position: 1px -2px;
+  cursor: pointer;
+}
+.totalGraphDiv {
+}
+.map_info_title {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 232px;
+  height: 20px;/* Firefox v1.0+ */
+  -moz-border-radius: 10px;/* Safari v3.0+ and by Chrome v0.2+ */
+  -webkit-border-radius: 10px;/* Firefox v4.0+ , Safari v5.0+ , Chrome v4.0+ , Opera v10.5+  and by IE v9.0+ */
+  border-radius: 10px;
+  padding-top: 0px;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0pt;
+  color: @t3;
+  text-align: left;/* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+}
+.totalGraphTitle {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 120px;
+  height: 20px;/* Firefox v1.0+ */
+  -moz-border-radius: 10px;/* Safari v3.0+ and by Chrome v0.2+ */
+  -webkit-border-radius: 10px;/* Firefox v4.0+ , Safari v5.0+ , Chrome v4.0+ , Opera v10.5+  and by IE v9.0+ */
+  border-radius: 10px;
+  margin-left: 4px;
+  padding-left: 25px;
+  padding-top: 0px;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0pt;
+  color: @t3;
+  text-align: left;/* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+  position: relative;
+}
+.tip {
+  position: absolute;
+  left: 3px;
+  top: 2px;
+  background: url(../img/tip.png);
+  background-position: -5px -1px no-repeat;
+  width: 14px;
+  height: 0px;
+  margin: 0px;
+  padding-top: 20px;
+  padding-left: 4px;
+  opacity: 0.2;
+}
+.changeGraphDiv {
+  position: relative;
+  margin-top: 10px;
+  padding-top: 3px;
+}
+.changeGraphTitle {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 140px;
+  height: 20px;/* Firefox v1.0+ */
+  -moz-border-radius: 10px;/* Safari v3.0+ and by Chrome v0.2+ */
+  -webkit-border-radius: 10px;/* Firefox v4.0+ , Safari v5.0+ , Chrome v4.0+ , Opera v10.5+  and by IE v9.0+ */
+  border-radius: 10px;
+  margin-left: 4px;
+  padding-left: 25px;
+  padding-top: 0px;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0pt;
+  color: @t3;
+  text-align: left;/* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+}
+.mapDiv {
+  background-color: @divColor;
+  height: 390px;
+  -moz-border-radius: @divRadius;/* Safari v3.0+ and by Chrome v0.2+ */
+  -webkit-border-radius: @divRadius;/* Firefox v4.0+ , Safari v5.0+ , Chrome v4.0+ , Opera v10.5+  and by IE v9.0+ */
+  border-radius: @divRadius;/* Firefox v3.5+ */
+  padding-top: 3px;
+}
+.mapTitle {
+  background-color: rgba(255, 255, 255, 0.1);
+  width: 80px;
+  height: 20px;/* Firefox v1.0+ */
+  -moz-border-radius: 10px;/* Safari v3.0+ and by Chrome v0.2+ */
+  -webkit-border-radius: 10px;/* Firefox v4.0+ , Safari v5.0+ , Chrome v4.0+ , Opera v10.5+  and by IE v9.0+ */
+  border-radius: 10px;
+  margin-left: 4px;
+  padding-left: 25px;
+  padding-top: 0px;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0pt;
+  color: @t3;
+  text-align: left;/* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+}
+
+.footer {
+  padding-bottom: 10px;
+  padding-top: 8px;
+  font-size: 10px;
+  line-height: 1.2;
+  z-index: 999999;
+}
+.logo {
+  float: right;
+  z-index: 9999;
+}
+.socialmedia {
+  position: absolute;
+  top: 5px;
+  right: 160px;
+  z-index: 99999999;
+}
+.socialmedia img {
+  padding: 2px;
+}
+.socialmedia img:hover {
+  opacity: 0.7;
+}
+.brandRow {
+  position: absolute;
+  top: 120px;
+  text-align: left;
+  float: left;
+  width: 100%;
+  z-index: 999999;
+}
+
+/* select country box */
+#countrySelector {
+  z-index: 99909;
+  text-align: right;
+  padding-right: 0px !important;
+}
+
+  #countrySelectorMobile select {
+    width: 290px;
+    background-color: #f2f2f2;
+    height: 33px;
+    text-align: center;
+    border: none;
+    -webkit-appearance:none;
+    font-weight: bold;
+    padding-left: 7px;
+    display: inline;
+    font-size: 97%;
+    padding-top: 2px;
+  }
+
+  #countrySelectorMobileIcon {
+    background: url(../img/dropdown.png) no-repeat;
+    background-position: 0px 0px;
+    background-size: 10px 18px;
+    width: 10px;
+    height: 20px;
+    position: absolute;
+    top: 8px;
+    right: 7px;
+  }
+
+  #prev,
+  #next {
+    height: 17px;
+    position: absolute;
+    right: 4px;
+    width: 15px;  
+    cursor: pointer;
+  }
+
+  #next {
+    bottom: 0px;  
+  }
+
+    #countrySelectorMobile {
+  display: inline-block;
+  position: relative;
+  }
+
+  #switchContainer {
+    display: inline-block;
+    padding-top: 12px;
+  }
+
+  #countrySelector .figure_label {
+    padding-right: 5px;
+    display: inline-block;
+  }
+
+.yearLabels { 
+  cursor: pointer;
+}
+
+@media (max-width: 1200px) { 
+
+  .figure_box {
+    margin-left: 0px;
+    float: left;
+    display: block;
+
+  }
+
+  .figure_label {
+    display: block;
+    text-align: left;
+  }
+
+
+
+}
+
+
+@media (max-width: 1000px) { 
+
+  #map_info {
+    display: none;
+  }
+}
+
+@media (max-width: 920px) { 
+
+  .yearLabels {
+    display: none;
+  }
+
+    #countrySelectorMobile {
+    width: 100%;
+  }
+
+    #countrySelector select {
+    width: 100%;
+  }
+
+
+
+}
+
+@media (max-width: 768px) { 
+
+  .totalGraphDiv {
+  }
+
+  .unhcr-header h1, .unhcr-header h2 {
+    font-size: 18px !important;
+  }
+
+  .unhcr-header h3 {
+    font-size: 12px !important;
+  }
+
+  .unhcr-header-logo  
+  {
+    height: 40px;
+  }
+
+
+  .figure_box {
+    margin-left: 0px;
+    float: right;
+    display: inline-block;
+
+  }
+
+  .figure_label {
+    display: inline-block;
+    text-align: left;
+    float: left;
+  }
+
+  #countrySelector select {
+    width: 100%;
+  }
+
+  #switchContainer {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+  }
+
+  #switchContainer table {
+
+    margin: 5px auto;
+  }
+
+
+
+
+
+  #countrySelectorMobile {
+    width: 100%;
+  }
+
+  #mobilemessage {
+    display: block;
+  }
+
+  #countrySelector {
+    padding-top: 5px !important;
+    text-align: left;
+  }
+
+  .map_header {
+      padding-top: 14px;
+  }
+
+
+}
+
+  @media (max-width: 568px) { 
+
+    .maplegend {
+      display: none !important;
+    }
+
+  }
